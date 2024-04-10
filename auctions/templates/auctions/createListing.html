@@ -1,0 +1,54 @@
+{% extends "auctions/layout.html" %}
+
+<title>
+    {% block title %}{{ listing.title }}{% endblock %}
+</title>
+
+{% block body %}
+    <h2>Create Listing</h2>
+    
+    {% if messages %}
+        <div class="alert alert-danger" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="{% url 'createListing' %}" method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title">
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Image URL</label>
+            <input type="text" class="form-control" id="Image" name="image" placeholder="Enter Image URL">
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description">
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" class="form-control" id="price" name="price" placeholder="Enter Starting Bid" min="1">
+        </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select name="category" id="category" class="form-control">
+                <option value="" selected disabled>--Please choose a Category--</option>
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Listing</button>
+
+    </form>
+{% endblock %}
